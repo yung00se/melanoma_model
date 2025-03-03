@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import os
 from werkzeug.utils import secure_filename
+import image_normal
 #from model import predict_skin_lesion  # Import AI Model
 
 app = Flask(__name__)
