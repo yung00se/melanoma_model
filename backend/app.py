@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import os
 from werkzeug.utils import secure_filename
 import image_normal
+import cv2
 #from model import predict_skin_lesion  # Import AI Model
 
 app = Flask(__name__)
@@ -37,12 +38,23 @@ def upload_file():
 
     filename = secure_filename(file.filename)
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    
+    # Save the file first
     file.save(filepath)
-
-    # Predict using AI model
-    #prediction = predict_skin_lesion(filepath)
-
-    return jsonify({'filename': filename, 'prediction': prediction})
+    
+    # Now read the saved file
+    image = cv2.imread(filepath)
+    
+    # Check if image was loaded successfully
+    if image is None:
+        return jsonify({'error': 'Could not process the image'}), 400
+        
+    resized_image = image_normal.resize_image(image=image)
+    #normalized_image = image_normal.normalize_image(resized_image)
+    normalized_filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'normalized_' + filename)
+    cv2.imwrite(normalized_filepath, resized_image)
+    
+    return jsonify({'filename': filename, 'normalized_filepath': normalized_filepath})
 
 if __name__ == '__main__':
     app.run(debug=True)
