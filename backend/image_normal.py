@@ -1,34 +1,31 @@
 import cv2
 import numpy as np
+import tensorflow as tf
+import os
+
+model = None # Global for model
+
+def load_model():
+    """Load the pre trained model"""
+    global model
+    if model is None:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        model_path = os.path.join(script_dir, 'model.keras')
+        model = tf.keras.models.load_model(model_path)
+    return model
 
 def normalize_image(image, target_min=0.0, target_max=1.0):
     """idk how to normalize this shit"""
 
-def resize_image(image, size=(256, 256)):
-    """
-    Resizes the image to the given size.
-    
-    Parameters:
-        image (np.ndarray): Input image array.
-        size (tuple): Desired dimensions (width, height).
-    
-    Returns:
-        np.ndarray: Resized image.
-    """
-    return cv2.resize(image, size)
 
-# Example usage:
-if __name__ == "__main__":
-    # Load an image using OpenCV (make sure you have an image file available)
-    # For example: image = cv2.imread("path_to_your_image.jpg")
-    # Here, we'll create a dummy image for demonstration:
-    dummy_image = np.random.randint(0, 256, (500, 500, 3), dtype=np.uint8)
-    image = cv2.imread("uploads/")  # Replace with your image path
-    # Resize the image to 256x256 pixels
-    resized_image = resize_image(dummy_image, size=(256, 256))
+def predict_lesion(image):
+    model = load_model()
     
-    # Normalize the resized image
-    normalized_image = normalize_image(resized_image)
+    resize_image = cv2.resize(image, (256,256))
+    # normalized image if we need to do that
     
-    print("Resized image shape:", resized_image.shape)
-    print("Normalized image range:", normalized_image.min(), "-", normalized_image.max())
+    input_image = np.expand_dims(resize_image, axis=0)
+    
+    prediction = model.predict(input_image)[0][0]
+    
+    return prediction

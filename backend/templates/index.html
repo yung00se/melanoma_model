@@ -61,7 +61,6 @@
                 resultText.innerText = data.prediction;
                 resultText.classList.remove('text-green-500', 'text-red-500');
                 resultText.classList.add(data.prediction === 'Malignant' ? 'text-red-500' : 'text-green-500');
-
                 resultContainer.classList.remove('hidden');
             }
         })

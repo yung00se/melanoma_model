@@ -49,12 +49,16 @@ def upload_file():
     if image is None:
         return jsonify({'error': 'Could not process the image'}), 400
         
-    resized_image = image_normal.resize_image(image=image)
-    #normalized_image = image_normal.normalize_image(resized_image)
-    normalized_filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'normalized_' + filename)
-    cv2.imwrite(normalized_filepath, resized_image)
+    prediction = image_normal.predict_lesion(image=image)
+    print("PREDICTION", prediction)
     
-    return jsonify({'filename': filename, 'normalized_filepath': normalized_filepath})
+    prediction_result = None
+    if prediction > 0.5:
+        prediction_result = 'Melanoma'
+    else:
+        prediction_result = 'Not Melanoma'
+    
+    return jsonify({'filename': filename, 'prediction': prediction_result})
 
 if __name__ == '__main__':
     app.run(debug=True)
