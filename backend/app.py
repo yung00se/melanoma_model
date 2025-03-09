@@ -54,9 +54,9 @@ def upload_file():
     
     prediction_result = None
     if prediction > 0.5:
-        prediction_result = 'Melanoma'
+        prediction_result = 'Malignant'
     else:
-        prediction_result = 'Not Melanoma'
+        prediction_result = 'Benign'
     
     return jsonify({'filename': filename, 'prediction': prediction_result})
 
