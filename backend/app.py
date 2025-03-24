@@ -27,6 +27,10 @@ def about():
 def contact():
     return render_template('contact.html')
 
+@app.route('/disclaimer')
+def disclaimer():
+    return render_template('disclaimer.html')
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
