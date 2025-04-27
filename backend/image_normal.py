@@ -18,14 +18,18 @@ def normalize_image(image, target_min=0.0, target_max=1.0):
     """idk how to normalize this shit"""
 
 
-def predict_lesion(image):
+def predict_lesion(image_path):
     model = load_model()
     
-    resize_image = cv2.resize(image, (256,256))
+    #resize_image = cv2.resize(image, (256,256))
     # normalized image if we need to do that
+
+    img = tf.keras.preprocessing.image.load_img(image_path, target_size=(256, 256))
+    img_array = tf.keras.preprocessing.image.img_to_array(img)
+    img_array = img_array / 255.0
     
-    input_image = np.expand_dims(resize_image, axis=0)
+    img_tensor = np.expand_dims(img_array, axis=0)
     
-    prediction = model.predict(input_image)[0][0]
+    prediction = model.predict(img_tensor)[0][0]
     
     return prediction

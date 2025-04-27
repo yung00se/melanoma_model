@@ -53,11 +53,11 @@ def upload_file():
     if image is None:
         return jsonify({'error': 'Could not process the image'}), 400
         
-    prediction = image_normal.predict_lesion(image=image)
+    prediction = image_normal.predict_lesion(filepath)
     print("PREDICTION", prediction)
     
     prediction_result = None
-    if prediction > 0.5:
+    if prediction > 0.4:
         prediction_result = 'Malignant'
     else:
         prediction_result = 'Benign'
