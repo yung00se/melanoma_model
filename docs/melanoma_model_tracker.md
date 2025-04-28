@@ -1,16 +1,37 @@
 # Melanoma Model Tracker
 
 ## Overview
-This document provides a brief explanation of how the model will be tracked in terms of data and iteration as well as it will document the team's thought process and changes as the model changes over time. 
+This document provides a brief explanation of how the model will be tracked in terms of data and iteration as well as it will document the team's thought process and changes as the model changes over time.
+
+Tracking model progress is important to show transparency with users and clients across all domains. AI and machine learning models are all tools and therefore must be properly refined to always be a useful tool and to be as accurate as possible. 
 
 ## Initial Design Thoughts
-The initial idea the team had developed is a python script that properly and accurately tracks changes in the model. This means all important outputs to keep track of along with a model iteration ID that is unique to a tweaked version of that model. 
+The initial idea the team had developed is a python script that properly and accurately tracks changes in the model. This means all important adjustments of the model to keep track of along with a model iteration ID that is unique to a tweaked version of it. 
 
-Using the CSV file reading and writing library the model will be able to be tracked so that improvements can be shown overtime. 
+Using the CSV file reading and writing library the model will be able to be tracked so that the number of convolutional layers, batch size, etc. can all be viewed over each iteration.. 
 
 Using the `model.fit()` function creates a customizable set of data that we can track and feed to the CSV editing script.
 
-We do have alternate options that are built into Tensorflow such as CSVLogger that must be investigated to make sure that these built in tools don't carry too much bloat or that they don't carry the ability to track and write important information into a CSV file. 
+We do have alternate options that are built into Tensorflow such as CSVLogger that must be investigated to make sure that these built in tools don't carry too much bloat or that they are able to track and write important information into a CSV file. 
+
+## Model Architecture Summary
+
+The structure the team had opted for was a convolutional neural network (CNN). This is because there has been a lot of empirical studies on how accurate this model structure is. It has been tested in various image processing model experiment such as MNIST database of handwritten digits, being one of the first applications where it succeeded, which shows nearly one-hundred percent accuracy.
+
+The following sections briefly cover the model's structure:
+
+**Convolutional Layers**: These layers simply act as filters for images. They are the layers that distinguish and extract increasingly complex features in the images to pass on to the next layer. 
+
+**Pooling Layer**: This layer is what received the features that were provided by the previous layer. This layer is best known for reducing spatial size of received features and preserving the most important information in them as it helps reduce computation and helps prevent overfitting.
+
+**Dense Layer**: Dense layers are known to interpret the image features in their entirety to finalize the decision between malignant or benign. 
+
+**Activations (ReLU, Sigmoid)**: This layer enables deep learning of complex patterns using Sigmoid to output a 0 or 1 which is ideal for binary outputs such as benign or malignant.
+
+**Regularization (Dropout, BatchNormalize)**: Dropout prevents overfitting through the random deactivation of neurons which fores the network to learn more robust/generalized features, and BatchNormalization maintains it stability and while speeding up training.
+
+Through these layers the team had to do experimental testing and make adjustments where necessary in order to balance the complexity and accuracy of the model. Ensuring that the model's architecture follows organized and standard design.
+
 
 
 ## Logging Metrics
