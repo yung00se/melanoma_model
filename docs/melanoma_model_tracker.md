@@ -49,6 +49,14 @@ Data preprocessing are steps taken to make sure any image is ready to go through
 
 **Label Mode**: The team set `label_mode` to "binary" since the project focuses on specifically malignant or benign classification.
 
+## Model Versioning System
+Version numbers are assigned linearly and simply (e.g., 1, 2, 3, ...). This is because the project is small and led by a small team so we don't expect any major additions and continuous version changes yet. 
+
+They are incremented based on major changes in important parameters or when we are at the end of a sprint that focused on model changes. 
+
+Model progress is logged onto a .csv file on our GitHub `model` folder named `progress_log.csv`.
+
+
 ## Logging Metrics
 The final design choice was to create a function that takes extracts information from the `history` and `conf_matrix` to track the following:
 
@@ -91,4 +99,56 @@ This may cause unnecessary fear, resource use, and expenses. It cannot necessari
 Now let's say that a user decides to try our mode. They upload their image and test it and get a false negative. Meaning that the image is malignant but was predicted to be benign.
 
 This is detrimental because if someone has genuine concern and the tool tells them they are fine then the user will take this as fact and may not catch the cancer early enough. Therefore, it can have life-altering implications. The team needs to make sure that its clear to the user that the project is not real medical advice and that they should always seek medical professionals for more guidance. 
+
+## Thresholding and Model Decision Making
+The model has specific threshold decisions that have been tested. There are some things to take note of first. Such as:
+- no machine learning model is 100% accurate/correct 
+- no machine learning model will be able to replace medical advice from a professional 
+- machine learning models are not made to replace medical workers nor will they in the near future
+- machine learning models are tools
+
+The team uses thresholding values to assist in mass errors such as the ones described above. For example we adjust the threshold for predicting benign or malignant and as of typing this it is currently set at `0.35`. This ensures that we can assume malignant more accurately than possibly misclassifying it as benign. As of typing this a test was run where the model only missed about 6-8% of malignant images. This is not perfect and is not meant to be and nor does it mean that it is usable in real-world applications yet as the environment in which its tested is very controlled and calculated.
+
+I repeat, this model is not meant to definitively provide medical advice. Seek a medical professional if you have any concerns.
+
+## Current Limitations
+There are many limitations to machine learning models right now. We will cover how some of those limitations have impacted our development in the machine learning model below.
+
+**Dataset Size and Diversity Limitation**: 
+Data size isn't exactly a problem we encountered since the dataset we found was very hefty. The quality was also not much of an issue since it was from a reputable source with consistent quality. 
+
+The problem specifically lies with the diversity. Although the images are reputable and have a consistent quality along with it being preprocessed this doesn't account for images of varying quality, size, skin color, skin lesion, and more. This means that unless the image inputted into the model isn't set up the same way as the dataset it was trained on then the results won't be the same or nearly as accurate. Especially if the image going through it isn't even cancer.
+
+**Risks of overfitting**:
+During training the team has to be very cautious of overfitting as it decreases the model's ability to generalize. It causes the model to become too sensitive to changes and therefore can perform poorly on data it hasn't seen. This was common for us when we ran too many epochs but otherwise we were careful to make changes to keep it relatively under control.
+
+**Lack of external validation**:
+Due to the domain of the problem this project seeks to solve we cannot easily depend on controlled data. External validation would be required for stronger claims on this model's performance.
+
+**Assumptions/Biases Built into the Model**:
+This model assumes that all images are properly labeled and that the image is skin cancer. This model may also have unknown biases depending on the dataset. This means it may have biases towards certain demographics, images, image type, or scanning equipment.
+
+## Planned Improvement and Future Work 
+The team isn't quite sure how much further we may pursue this project as it requires a great understanding of the domain in which the problem resides and must be carefully thought out. Just one meeting with a medical professional opened our eyes to the extent of issues we had not yet considered for this model. Therefore it would need a lot more careful planning, testing, and warnings with using the model.
+
+## Security and Privacy Considerations
+### Project Scope and Disclaimer
+This project was academic and experimental. It was intended to be a technical demonstration of how machine learning models can be applied to skin cancer classification tasks. The user is allowed to upload images and test its functionality but the project was not built for production use or real-world deployment. 
+
+USERS UPLOAD IMAGES AT THEIR OWN RISK 
+
+### Lack of Security and Privacy Protections
+There are no security mechanisms in place such as encryption, authentication, or secure image storage. This means no images are guaranteed secure. Users should be aware that uploading any sensitive or identifying information/images could expose them.
+
+### Use at Your Own Risk 
+We do this as a standard to make sure the user understands that these experimental tools are not meant to be used seriously. For your safety and ours.
+
+- By uploading an image, users acknowledge that the system does not meet clinical, legal, or security standards.
+- The team accepts no liability for any consequences arising from use of the tool, including but not limited to data breaches, misdiagnoses, or user reliance on the output.
+
+### Not a Medical Device
+Again we do this to ensure that both parties are safe and that there are no misunderstandings.
+
+- The project is not FDA-approved, HIPAA-compliant, or a certified medical device.
+- Users are strongly advised to consult qualified medical professionals for any concerns regarding skin cancer or related health issues.
 
