@@ -62,7 +62,8 @@ def upload_file():
     else:
         prediction_result = 'Benign'
     
-    return jsonify({'filename': filename, 'prediction': prediction_result})
+    # Return both the result and the confidence score
+    return jsonify({'filename': filename, 'prediction': prediction_result, 'confidence': float(prediction)})
 
 if __name__ == '__main__':
     app.run(debug=True)

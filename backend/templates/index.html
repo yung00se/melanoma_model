@@ -19,6 +19,7 @@
         <div id="resultContainer" class="mt-6 hidden text-center">
             <p class="text-lg font-semibold text-gray-700">Prediction:</p>
             <p id="resultText" class="text-xl font-bold mt-2"></p>
+            <p class="text-md text-gray-600 mt-1">Confidence: <span id="confidenceText"></span></p>
         </div>
     </div>
 </div>
@@ -57,9 +58,11 @@
                 alert(data.error);
             } else {
                 let resultText = document.getElementById('resultText');
+                let confidenceText = document.getElementById('confidenceText');
                 let resultContainer = document.getElementById('resultContainer');
 
                 resultText.innerText = data.prediction;
+                confidenceText.innerText = (data.confidence * 100).toFixed(2) + '%';
                 resultText.classList.remove('text-green-500', 'text-red-500');
                 resultText.classList.add(data.prediction === 'Malignant' ? 'text-red-500' : 'text-green-500');
                 resultContainer.classList.remove('hidden');
