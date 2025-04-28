@@ -26,7 +26,7 @@ The following sections briefly cover the model's structure:
 
 **Dense Layer**: Dense layers are known to interpret the image features in their entirety to finalize the decision between malignant or benign. 
 
-**Activations (ReLU, Sigmoid)**: This layer enables deep learning of complex patterns using Sigmoid to output a 0 or 1 which is ideal for binary outputs such as benign or malignant.
+**Activations (ReLU, Sigmoid)**: ReLU activations are used everywhere in the model except the final output layer. The output layer uses a sigmoid function, which outputs a value between 0 and 1.
 
 **Regularization (Dropout, BatchNormalize)**: Dropout prevents overfitting through the random deactivation of neurons which fores the network to learn more robust/generalized features, and BatchNormalization maintains it stability and while speeding up training.
 
@@ -41,9 +41,9 @@ Data preprocessing are steps taken to make sure any image is ready to go through
 **Normalization**: The images are then scaled down from `[0, 255]` to `[0, 1]` through simple division. Allows for a more stable model with faster training. It provides a better working condition for backpropagation.
 
 **Data Splitting**: This is where the team splits up the sets of data. In this case we split it into three sets:
-- Training Set: Used to teach the model. Think of it as its practice.
-- Validation Set: Used during training to check how well the model is generalizing. Think of this as the solution sheet to track its progress.
-- Test Set: Used at the end to check final performance. This was set to shuffle so the model doesn't memorize order of data. Think of it as its exam its been preparing for.
+- Training Set (70%): Used to teach the model. Think of it as its practice.
+- Validation Set (20%): Used during training to check how well the model is generalizing. Think of this as the solution sheet to track its progress.
+- Test Set (10%): Used at the end to check final performance. This was set to shuffle so the model doesn't memorize order of data. Think of it as its exam its been preparing for.
 
 **Batch Preparation**: All data is loaded in batches as it allows the model to work efficiently. Optimizing the memory use and training speed. This way the model can process multiple images at once on the GPU. Otherwise it would take a lot longer if done on the CPU.
 
@@ -107,7 +107,7 @@ The model has specific threshold decisions that have been tested. There are some
 - machine learning models are not made to replace medical workers nor will they in the near future
 - machine learning models are tools
 
-The team uses thresholding values to assist in mass errors such as the ones described above. For example we adjust the threshold for predicting benign or malignant and as of typing this it is currently set at `0.35`. This ensures that we can assume malignant more accurately than possibly misclassifying it as benign. As of typing this a test was run where the model only missed about 6-8% of malignant images. This is not perfect and is not meant to be and nor does it mean that it is usable in real-world applications yet as the environment in which its tested is very controlled and calculated.
+The team uses thresholding values to assist in mass errors such as the ones described above. For example we adjust the threshold for predicting benign or malignant and as of typing this it is currently set at `0.7`. This ensures that we can assume malignant more accurately than possibly misclassifying it as benign. As of typing this a test was run where the model only missed about 6-8% of malignant images. This is not perfect and is not meant to be and nor does it mean that it is usable in real-world applications yet as the environment in which its tested is very controlled and calculated.
 
 I repeat, this model is not meant to definitively provide medical advice. Seek a medical professional if you have any concerns.
 
