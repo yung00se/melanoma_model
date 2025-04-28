@@ -32,7 +32,22 @@ The following sections briefly cover the model's structure:
 
 Through these layers the team had to do experimental testing and make adjustments where necessary in order to balance the complexity and accuracy of the model. Ensuring that the model's architecture follows organized and standard design.
 
+## Data Preprocessing Steps
 
+Data preprocessing are steps taken to make sure any image is ready to go through the model as the model cannot just take any image and read it the same. 
+
+**Image Loading**: Images are loaded in (depends on user folder location) using the `image_dataset_from_directory` function provided by TensorFlow. Images are automatically labeled based on folder names (`benign/`, `malignant/`) and they are resized to 256x256 as those are the model's input size requirements.
+
+**Normalization**: The images are then scaled down from `[0, 255]` to `[0, 1]` through simple division. Allows for a more stable model with faster training. It provides a better working condition for backpropagation.
+
+**Data Splitting**: This is where the team splits up the sets of data. In this case we split it into three sets:
+- Training Set: Used to teach the model. Think of it as its practice.
+- Validation Set: Used during training to check how well the model is generalizing. Think of this as the solution sheet to track its progress.
+- Test Set: Used at the end to check final performance. This was set to shuffle so the model doesn't memorize order of data. Think of it as its exam its been preparing for.
+
+**Batch Preparation**: All data is loaded in batches as it allows the model to work efficiently. Optimizing the memory use and training speed. This way the model can process multiple images at once on the GPU. Otherwise it would take a lot longer if done on the CPU.
+
+**Label Mode**: The team set `label_mode` to "binary" since the project focuses on specifically malignant or benign classification.
 
 ## Logging Metrics
 The final design choice was to create a function that takes extracts information from the `history` and `conf_matrix` to track the following:
